@@ -1,4 +1,4 @@
-# Preparacção de Ambiente e Bibliotecas RapsBerry Pico
+# Preparação de Ambiente e Bibliotecas RapsBerry Pico
 
 [[_TOC_]]
 
@@ -12,7 +12,7 @@ https://www.raspberrypi.com/documentation/microcontrollers/c_sdk.html
 ### 1.1 Preparar ambiente linux - Resumido
 
 
-Para prepar o ambiente de desenvolvimento deve seguir os seguintes passos:
+Para preparar o ambiente de desenvolvimento deve seguir os seguintes passos:
 
 - Criar os diretorio `~/pico`:
 
