@@ -5,7 +5,7 @@
 
 ## 1. Preparar ambiente 
 
-Todas as referências para configuração do ambiente pode ser contrada no seguinte link:
+Todas as referências para configuração do ambiente podem ser encontrada no seguinte link:
 
 https://www.raspberrypi.com/documentation/microcontrollers/c_sdk.html
 
@@ -32,7 +32,7 @@ $ cd ..
 $ git clone https://github.com/raspberrypi/pico-examples.git --branch master
 ```
 
-- Instalacão do Toolchain
+- Instalação do Toolchain
 
 ```
 $ sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential 
@@ -42,11 +42,11 @@ $ sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essenti
 Sigua o link para informações detalhadas do procedimento para conectar o botão de reset:
 https://embarcados.com.br/programacao-da-raspberry-pi-pico/
 
-- Para conectar o botão de reset, contecte o botão nos pinos PIN30(RUN) e GND.
+- Para conectar o botão de reset, conecte o botão nos pinos PIN30(RUN) e GND.
 
 ## 3. Configurando o ambiente de desenvolvimento para este projeto - Resumido:
 
-Para configuando o ambiente de desenvolvimento deve seguir os seguintes passos:
+Para configurando o ambiente de desenvolvimento deve seguir os seguintes passos:
 
 - Clonar esse projeto para dentro do diretorio: 
 
@@ -97,4 +97,3 @@ $ export PICO_SDK_PATH=../../pico-sdk
 ```
 cp ~/pico/picolib/build/main.uf2  /media/<nome_usuario>/RPI-RP2
 ```
-
