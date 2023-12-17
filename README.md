@@ -44,7 +44,7 @@ https://embarcados.com.br/programacao-da-raspberry-pi-pico/
 
 - Para conectar o botão de reset, contecte o botão nos pinos PIN30(RUN) e GND.
 
-## 3. Configuando o ambiente de desenvolvimento para este projeto - Resumido:
+## 3. Configurando o ambiente de desenvolvimento para este projeto - Resumido:
 
 Para configuando o ambiente de desenvolvimento deve seguir os seguintes passos:
 
