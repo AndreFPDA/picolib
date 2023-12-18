@@ -64,7 +64,7 @@ $ cd build
 
 - A variável de ambiente a seguir deve ser executada no terminal dentro do diretório `~/pico/picolib/build`:
 
-[!NOTE] ATENÇÃO: A variável de ambiente de ser setada toda vez que abir o terminal.
+[!NOTE] ATENÇÃO: A variável de ambiente deve ser setada toda vez que abir o terminal.
 
 ```
 $ export PICO_SDK_PATH=../../pico-sdk
