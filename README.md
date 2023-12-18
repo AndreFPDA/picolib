@@ -62,7 +62,7 @@ $ mkdir build
 $ cd build
 ```
 
-- A variável de ambiente a seguir de ser executada no terminal dentro do diretório `~/pico/picolib/build`:
+- A variável de ambiente a seguir deve ser executada no terminal dentro do diretório `~/pico/picolib/build`:
 
 [!NOTE] ATENÇÃO: A variável de ambiente de ser setada toda vez que abir o terminal.
 
