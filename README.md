@@ -1,11 +1,11 @@
-# Preparação de Ambiente e Bibliotecas RapsBerry Pico
+# Preparação de Ambiente Para RaspBerry Pico
 
 [[_TOC_]]
 
 
 ## 1. Preparar ambiente 
 
-Todas as referências para configuração do ambiente podem ser encontrada no seguinte link:
+Todas as referências para configuração do ambiente podem ser encontradas no seguinte link:
 
 https://www.raspberrypi.com/documentation/microcontrollers/c_sdk.html
 
@@ -14,7 +14,7 @@ https://www.raspberrypi.com/documentation/microcontrollers/c_sdk.html
 
 Para preparar o ambiente de desenvolvimento deve seguir os seguintes passos:
 
-- Criar os diretorio `~/pico`:
+- Criar o diretorio `~/pico`:
 
 ```
 $ cd ~/
@@ -42,7 +42,7 @@ $ sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essenti
 Sigua o link para informações detalhadas do procedimento para conectar o botão de reset:
 https://embarcados.com.br/programacao-da-raspberry-pi-pico/
 
-- Para conectar o botão de reset, conecte o botão nos pinos PIN30(RUN) e GND.
+- Para conectar o botão de reset, conecte os terminais do botão nos pinos PIN30(RUN) e GND.
 
 ## 3. Configurando o ambiente de desenvolvimento para este projeto - Resumido:
 
@@ -51,7 +51,8 @@ Para configurando o ambiente de desenvolvimento deve seguir os seguintes passos:
 - Clonar esse projeto para dentro do diretorio: 
 
 ```
-~/pico
+cd ~/pico
+git clone https://github.com/AndreFPDA/picolib.git
 ```
 
 - Dentro do diretório deste projeto, o diretório  `build` deve ser criado;
@@ -64,7 +65,7 @@ $ cd build
 
 - A variável de ambiente a seguir deve ser executada no terminal dentro do diretório `~/pico/picolib/build`:
 
-[!NOTE] ATENÇÃO: A variável de ambiente deve ser setada toda vez que abir o terminal.
+[!NOTE] ATENÇÃO: A variável de ambiente deve ser executada toda vez que abir o terminal.
 
 ```
 $ export PICO_SDK_PATH=../../pico-sdk
@@ -86,13 +87,13 @@ $ export PICO_SDK_PATH=../../pico-sdk
     $ make clean
     ```
 
-### 3.2 Carregar códido:
+### 3.2 Carregar código:
 
-- Deve iniciar as Rasp Pico em modo de boot, para isso bastar conectar ou resetar o pico pressionando o botão de boot que se encontra na placa do pico. 
+- Deve iniciar a Rasp Pico em modo de boot, para isso bastar conectar ou resetar o Rasp Pico pressionando o botão de boot que se encontra na placa. 
 
-- O pico será reconhecido como uma mídia externa pelo linux.
+- O Rasp Pico será reconhecido como uma mídia externa pelo linux.
 
--  Depois bastar copiar o arquivo `main.uf2` para dentro do pico:
+-  Depois bastar copiar o arquivo `main.uf2`, que sencontra em `~/pico/picolib/build`, para dentro do pico:
 
 ```
 cp ~/pico/picolib/build/main.uf2  /media/<nome_usuario>/RPI-RP2
