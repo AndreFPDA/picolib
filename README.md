@@ -1,8 +1,5 @@
 # Preparação de Ambiente Para RaspBerry Pico
 
-[[_TOC_]]
-
-
 ## 1. Preparar ambiente 
 
 Todas as referências para configuração do ambiente podem ser encontradas no seguinte link:
@@ -98,3 +95,48 @@ $ export PICO_SDK_PATH=../../pico-sdk
 ```
 cp ~/pico/picolib/build/main.uf2  /media/<nome_usuario>/RPI-RP2
 ```
+## 4. Edição do código
+
+### 4.2  Clang Format - Para manter o código com organização padronizada.
+
+- Instalação do Clang Format 11 - `OBRIGATÓRIO`:
+  
+```
+sudo apt install clang-format-11
+```
+
+- Para formatar os arquivos *.hpp e *.cpp, exemplo:
+  
+```
+clang-format-11 -i nome_arquivo_formatar.cpp
+```
+
+### 4.3 Ambiente VSCode - Recomendado
+
+- Pacotes linux que devem ser instalados previamente:
+
+- Aplicativos VSCode:
+    - C/C++ v1.16.3 -> Microsoft
+    - C/C++ Extension Pack-> Microsoft
+    - Clang-Format -> Xaver Hellauer
+    - GitLens -> GitLens
+
+Para evitar problemas com acentos e formatos:
+- No VSCode, Configurações, Settings, Text Editor, Code Actions On Save, clicar em “Edit in settings.json”. 
+- Para acessar o settings.json, use o comando de atalho <Ctrl+Shift+P> e pesquise pelo nome do arquivo.
+- Copie e cole o as seguintes configurações:
+```
+{
+    "files.encoding": "UTF-8",
+    "terminal.integrated.persistentSessionScrollback": 100000000,
+    "terminal.integrated.scrollback": 100000000,
+    "codegnuglobal.autoupdate": false,
+    "editor.defaultFormatter": "xaver.clang-format",
+    "clang-format.assumeFilename": ".clang-format",
+    "editor.formatOnSave": true,
+    "clang-format.executable": "clang-format-11",
+    "window.zoomLevel": -1
+}
+```
+
+
