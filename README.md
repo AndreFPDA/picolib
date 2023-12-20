@@ -97,9 +97,9 @@ cp ~/pico/picolib/build/main.uf2  /media/<nome_usuario>/RPI-RP2
 ```
 ## 4. Edição do código
 
-### 4.2  Clang Format - Para manter o código com organização padronizada.
+### 4.2  Clang Format - Para manter o código com organização padronizada - OBRIGATÓRIO.
 
-- Instalação do Clang Format 11 - `OBRIGATÓRIO`:
+- Instalação do Clang Format 11:
   
 ```
 sudo apt install clang-format-11
