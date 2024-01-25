@@ -60,12 +60,17 @@ $ mkdir build
 $ cd build
 ```
 
-- A variável de ambiente a seguir deve ser executada no terminal dentro do diretório `~/pico/picolib/build`:
+- A variável de ambiente a seguir deve ser executada no terminal dentro do diretório `~/pico/picolib/src/build`:
 
-[!NOTE] ATENÇÃO: A variável de ambiente deve ser executada toda vez que abir o terminal.
+[!NOTE] ATENÇÃO: A variável de ambiente e o CMAKE devem ser executados toda vez que abir o terminal.
 
 ```
-$ export PICO_SDK_PATH=../../pico-sdk
+$ export PICO_SDK_PATH=../../../pico-sdk
+```
+
+
+```
+cmake ..
 ```
 
 ### 3.1 Comando para compilar:
