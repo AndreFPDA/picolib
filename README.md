@@ -100,6 +100,18 @@ cmake ..
 ```
 cp ~/pico/picolib/build/main.uf2  /media/<nome_usuario>/RPI-RP2
 ```
+
+###3.3 Monitor serial:
+
+- Putty - Recomendado:
+
+O Putty é uma monitor usados para teste de varios tipos de comunicação. Ele permite ser usado como monitor serial.
+
+Está disponível para Linux e Windows.
+
+Pode ser baixado pelo seguinte link: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+
+
 ## 4. Edição do código
 
 ### 4.2  Clang Format - Para manter o código com organização padronizada - OBRIGATÓRIO.
