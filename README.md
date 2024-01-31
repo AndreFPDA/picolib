@@ -101,7 +101,7 @@ cmake ..
 cp ~/pico/picolib/build/main.uf2  /media/<nome_usuario>/RPI-RP2
 ```
 
-###3.3 Monitor serial:
+### 3.3 Monitor serial:
 
 - Putty - Recomendado:
 
