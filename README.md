@@ -14,25 +14,25 @@ Para preparar o ambiente de desenvolvimento deve seguir os seguintes passos:
 - Criar o diretorio `~/pico`:
 
 ```
-$ cd ~/
-$ mkdir pico
-$ cd pico
+cd ~/
+mkdir pico
+cd pico
 ```
 
 - Clonar o sdk e os exemplos:
 
 ```
-$ git clone https://github.com/raspberrypi/pico-sdk.git --branch master
-$ cd pico-sdk
-$ git submodule update --init
-$ cd ..
-$ git clone https://github.com/raspberrypi/pico-examples.git --branch master
+git clone https://github.com/raspberrypi/pico-sdk.git --branch master
+cd pico-sdk
+git submodule update --init
+cd ..
+git clone https://github.com/raspberrypi/pico-examples.git --branch master
 ```
 
 - Instalação do Toolchain
 
 ```
-$ sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential 
+sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential 
 ```
 ## 2. Preparando a placa de desenvolvimento:
 
@@ -55,9 +55,8 @@ git clone https://github.com/AndreFPDA/picolib.git
 - Dentro do diretório deste projeto, o diretório  `build` deve ser criado;
 
 ```
-$ cd picolib
-$ mkdir build
-$ cd build
+cd picolib/src/
+mkdir build; && cd build;
 ```
 
 - A variável de ambiente a seguir deve ser executada no terminal dentro do diretório `~/pico/picolib/src/build`:
@@ -65,9 +64,8 @@ $ cd build
 [!NOTE] ATENÇÃO: A variável de ambiente e o CMAKE devem ser executados toda vez que abir o terminal.
 
 ```
-$ export PICO_SDK_PATH=../../../pico-sdk
+export PICO_SDK_PATH=../../../pico-sdk
 ```
-
 
 ```
 cmake ..
@@ -76,17 +74,17 @@ cmake ..
 ### 3.1 Comando para compilar:
 - Compilar com uma thread: 
     ```
-    $ make
+    make
     ```
     
 - Compilar com 4 thread: 
     ```
-    $ make -j4
+    make -j4
     ```    
 
 - Limpar arquivos compilados:
     ```
-    $ make clean
+    make clean
     ```
 
 ### 3.2 Carregar código:
