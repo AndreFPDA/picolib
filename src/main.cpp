@@ -13,26 +13,6 @@
 
 using namespace std;
 
-
-void acionarAtuadorTecla(int tecla) {
-
-    int32_t mask = bits_map_GPIO_dmux[tecla] << FIRST_GPIO;
-
-    // Set all our GPIOs in one go!
-    // If something else is using GPIO, we might want to use gpio_put_masked()
-    gpio_set_mask(mask);
-    
-    gpio_put(signal, 1);
-    sleep_ms(250);
-    gpio_put(signal, 0);    
-
-    gpio_clr_mask(mask);
-    printf("ACK-%d\n", tecla);
-    printf("bits_map_GPIO-%d\n", bits_map_GPIO_dmux[tecla]);
-    printf("mascara-%d\n", mask);
-}
-
-
 void setup() {
     //setup display
     stdio_init_all();
