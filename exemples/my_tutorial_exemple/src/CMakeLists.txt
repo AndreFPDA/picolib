@@ -22,8 +22,8 @@ add_executable(main
 
 target_sources(main
         PUBLIC
-            ${CMAKE_CURRENT_LIST_DIR}/../lib/SSD1306.cpp
-            ${CMAKE_CURRENT_LIST_DIR}/../lib/GFX.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/../../../lib/oledfx/SSD1306.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/../../../lib/oledfx/oledfx.cpp
 )
 
  target_include_directories(main
