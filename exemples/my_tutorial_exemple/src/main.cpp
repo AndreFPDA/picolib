@@ -9,7 +9,7 @@
 #include <stdint.h>
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
-#include <lib/GFX.hpp>
+#include <../../lib/oledfx/oledfx.hpp>
 
 using namespace std;
 
@@ -26,17 +26,18 @@ void setup() {
 }
 
 int main() {
+    string mensagem = "COM-ACK\n\n";
     setup();
 
-    GFX oled(0x3C, size::W128xH64, i2c0);   //Declare oled instance
+    oledfx oled(0x3C, size::W128xH64, i2c0);   //Declare oled instance
     // if you are using 128x32 oled try size::W128xH32
+
+    printf("COM-ACK\n\n");
     getchar();
 
-    string mensagem = "COM-ACK\n\n";
     oled.clear();
     oled.drawString(0, 0, mensagem);
     oled.display();
-    printf("COM-ACK\n\n");
     sleep_ms(1000);
 
     char serialImput;

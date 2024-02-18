@@ -32,19 +32,24 @@
 #ifndef OLEDDISPLAY_h
 #define OLEDDISPLAY_h
 
+/*
 #ifdef ARDUINO
 #include <Arduino.h>
 #elif __MBED__
+*/
 #define pgm_read_byte(addr)   (*(const unsigned char *)(addr))
 
+/*
 #include <mbed.h>
 #define delay(x)	wait_ms(x)
 #define yield()		void()
-
+*/
 /*
  * This is a little Arduino String emulation to keep the OLEDDisplay
  * library code in common between Arduino and mbed-os
  */
+
+/*
 class String {
 public:
 	String(const char *s) { _str = s; };
@@ -60,7 +65,11 @@ private:
 #else
 #error "Unkown operating system"
 #endif
+*/
 
+// For raspberry pico 
+#include <stdlib.h>
+#include <string>
 #include "OLEDDisplayFonts.h"
 
 //#define DEBUG_OLEDDISPLAY(...) Serial.printf( __VA_ARGS__ )
@@ -74,6 +83,7 @@ private:
 #ifndef OLEDDISPLAY_REDUCE_MEMORY
 #define OLEDDISPLAY_DOUBLE_BUFFER
 #endif
+
 
 // Header Values
 #define JUMPTABLE_BYTES 4
@@ -90,6 +100,7 @@ private:
 
 
 // Display commands
+////////////////////////////////////////////////////////////////////////////////////
 #define CHARGEPUMP 0x8D
 #define COLUMNADDR 0x21
 #define COMSCANDEC 0xC8
@@ -116,6 +127,35 @@ private:
 #define SETSTARTLINE 0x40
 #define SETVCOMDETECT 0xDB
 #define SWITCHCAPVCC 0x2
+////////////////////////////////////////////////////////////////////////////////////
+
+
+#define SSD1306_SETCONTRAST 0x81
+#define SSD1306_DISPLAYALLON_RESUME 0xA4
+#define SSD1306_DISPLAYALLON 0xA5
+#define SSD1306_NORMALDISPLAY 0xA6
+#define SSD1306_INVERTDISPLAY 0xA7
+#define SSD1306_DISPLAYOFF 0xAE
+#define SSD1306_DISPLAYON 0xAF
+#define SSD1306_SETDISPLAYOFFSET 0xD3
+#define SSD1306_SETCOMPINS 0xDA
+#define SSD1306_SETVCOMDETECT 0xDB
+#define SSD1306_SETDISPLAYCLOCKDIV 0xD5
+#define SSD1306_SETPRECHARGE 0xD9
+#define SSD1306_SETMULTIPLEX 0xA8
+#define SSD1306_SETLOWCOLUMN 0x00
+#define SSD1306_SETHIGHCOLUMN 0x10
+#define SSD1306_SETSTARTLINE 0x40
+#define SSD1306_MEMORYMODE 0x20
+#define SSD1306_COLUMNADDR 0x21
+#define SSD1306_PAGEADDR   0x22
+#define SSD1306_COMSCANINC 0xC0
+#define SSD1306_COMSCANDEC 0xC8
+#define SSD1306_SEGREMAP 0xA0
+#define SSD1306_CHARGEPUMP 0x8D
+#define SSD1306_EXTERNALVCC 0x1
+#define SSD1306_SWITCHCAPVCC 0x2
+
 
 #ifndef _swap_int16_t
 #define _swap_int16_t(a, b) { int16_t t = a; a = b; b = t; }
@@ -151,7 +191,8 @@ enum HW_I2C {
 typedef char (*FontTableLookupFunction)(const uint8_t ch);
 char DefaultFontTableLookup(const uint8_t ch);
 
-
+class OLEDDisplay { //: public Print  {
+/*
 #ifdef ARDUINO
 class OLEDDisplay : public Print  {
 #elif __MBED__
@@ -159,6 +200,7 @@ class OLEDDisplay : public Stream {
 #else
 #error "Unkown operating system"
 #endif
+*/
 
   public:
 	OLEDDisplay();
@@ -243,24 +285,24 @@ class OLEDDisplay : public Stream {
     /* Text functions */
 
     // Draws a string at the given location, returns how many chars have been written
-    uint16_t drawString(int16_t x, int16_t y, const String &text);
+    uint16_t drawString(int16_t x, int16_t y, const std::string &text);
 
     // Draws a formatted string (like printf) at the given location
-    void drawStringf(int16_t x, int16_t y, char* buffer, String format, ... );
+    void drawStringf(int16_t x, int16_t y, char* buffer, std::string format, ... );
 
     // Draws a String with a maximum width at the given location.
     // If the given String is wider than the specified width
     // The text will be wrapped to the next line at a space or dash
     // returns 0 if everything fits on the screen or the numbers of characters in the
     // first line if not
-    uint16_t drawStringMaxWidth(int16_t x, int16_t y, uint16_t maxLineWidth, const String &text);
+    uint16_t drawStringMaxWidth(int16_t x, int16_t y, uint16_t maxLineWidth, const std::string &text);
 
     // Returns the width of the const char* with the current
     // font settings
     uint16_t getStringWidth(const char* text, uint16_t length, bool utf8 = false);
 
     // Convencience method for the const char version
-    uint16_t getStringWidth(const String &text);
+    uint16_t getStringWidth(const std::string &text);
 
     // Specifies relative to which anchor point
     // the text is rendered. Available constants:
@@ -380,7 +422,7 @@ class OLEDDisplay : public Stream {
     void sendInitCommands();
 
     // converts utf8 characters to extended ascii
-    char* utf8ascii(const String &s);
+    char* utf8ascii(const std::string &s);
 
     void inline drawInternal(int16_t xMove, int16_t yMove, int16_t width, int16_t height, const uint8_t *data, uint16_t offset, uint16_t bytesInData) __attribute__((always_inline));
 

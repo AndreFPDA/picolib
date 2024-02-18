@@ -1,7 +1,7 @@
 // #pragma once
 
-#ifndef _GFX_H
-#define _GFX_H
+#ifndef _oledfx_H
+#define _oledfx_H
 
 #include "SSD1306.hpp"
 #include "font.hpp"
@@ -10,11 +10,11 @@
 
 
 
-class GFX : public SSD1306 {
+class oledfx : public SSD1306 {
     const uint8_t* font = font_8x5;
 
     public:
-        GFX(uint16_t const DevAddr, size Size, i2c_inst_t * i2c);
+        oledfx(uint16_t const DevAddr, size Size, i2c_inst_t * i2c);
 
         void drawChar(int x, int y, char chr, colors color = colors::WHITE);
         void drawString(int x, int y, std::string str, colors color = colors::WHITE);

@@ -1,4 +1,4 @@
-#include "GFX.hpp"
+#include "oledfx.hpp"
 
 namespace {
 
@@ -13,13 +13,13 @@ namespace {
 
 
 /**
- * Create GFX instantion 
+ * Create oledfx instantion 
  *
  * @param DevAddr device i2c address.
  * @param Size screen size (W128xH64 or W128xH32)
  * @param i2c i2c instance
  */
-GFX::GFX(uint16_t const DevAddr, size Size, i2c_inst_t * i2c) : SSD1306(DevAddr, Size, i2c) {};
+oledfx::oledfx(uint16_t const DevAddr, size Size, i2c_inst_t * i2c) : SSD1306(DevAddr, Size, i2c) {};
 
 
 /**
@@ -30,7 +30,7 @@ GFX::GFX(uint16_t const DevAddr, size Size, i2c_inst_t * i2c) : SSD1306(DevAddr,
  * @param chr char to be written
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void GFX::drawChar(int x, int y, char chr, colors color)
+void oledfx::drawChar(int x, int y, char chr, colors color)
 {
 	if(chr > 0x7E) return; // chr > '~'
 
@@ -57,7 +57,7 @@ void GFX::drawChar(int x, int y, char chr, colors color)
  * @param str string to be written
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void GFX::drawString(int x, int y, std::string str, colors color)
+void oledfx::drawString(int x, int y, std::string str, colors color)
 {
 	int x_tmp = x;
 
@@ -79,7 +79,7 @@ void GFX::drawString(int x, int y, std::string str, colors color)
  * @param h height of the rectangle
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void GFX::drawRectangle(int x, int y, uint16_t w, uint16_t h, colors color)
+void oledfx::drawRectangle(int x, int y, uint16_t w, uint16_t h, colors color)
 {
     this->drawHorizontalLine(x, y, w, color);
     this->drawHorizontalLine(x, y+h-1, w, color);
@@ -97,7 +97,7 @@ void GFX::drawRectangle(int x, int y, uint16_t w, uint16_t h, colors color)
  * @param h height of the rectangle
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void GFX::drawFillRectangle(int x, int y, uint16_t w, uint16_t h, colors color)
+void oledfx::drawFillRectangle(int x, int y, uint16_t w, uint16_t h, colors color)
 {
     for (int i=x; i<x+w; i++) {
     	this->drawVerticalLine(i, y, h, color);
@@ -115,7 +115,7 @@ void GFX::drawFillRectangle(int x, int y, uint16_t w, uint16_t h, colors color)
  * @param progress progress (0, 100)
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void GFX::drawProgressBar(int x, int y, uint16_t w, uint16_t h, uint8_t progress, colors color)
+void oledfx::drawProgressBar(int x, int y, uint16_t w, uint16_t h, uint8_t progress, colors color)
 {
     this->drawRectangle(x, y, w, h, color);
     this->drawFillRectangle(x, y, (uint8_t)((w*progress)/100), h, color);
@@ -130,7 +130,7 @@ void GFX::drawProgressBar(int x, int y, uint16_t w, uint16_t h, uint8_t progress
  * @param h height of the line
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void GFX::drawVerticalLine(int x, int y, int h, colors color)
+void oledfx::drawVerticalLine(int x, int y, int h, colors color)
 {
 	this->drawLine(x, y, x, y+h-1, color);
 }
@@ -144,7 +144,7 @@ void GFX::drawVerticalLine(int x, int y, int h, colors color)
  * @param w width of the line
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void GFX::drawHorizontalLine(int x, int y, int w, colors color)
+void oledfx::drawHorizontalLine(int x, int y, int w, colors color)
 {
 	this->drawLine(x, y, x+w-1, y, color);
 }
@@ -159,7 +159,7 @@ void GFX::drawHorizontalLine(int x, int y, int w, colors color)
  * @param y_end position of the second point from the top edge  (0, MAX HEIGHT)
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void GFX::drawLine(int x_start, int y_start, int x_end, int y_end, colors color)
+void oledfx::drawLine(int x_start, int y_start, int x_end, int y_end, colors color)
 {
 	int16_t steep = abs(y_end - y_start) > abs(x_end - x_start);
 
@@ -218,7 +218,7 @@ void GFX::drawLine(int x_start, int y_start, int x_end, int y_end, colors color)
  *
  * @param font Pointer to array with your font
  */
-void GFX::setFont(const uint8_t* font)
+void oledfx::setFont(const uint8_t* font)
 {
 	this->font = font;
 }
@@ -229,7 +229,7 @@ void GFX::setFont(const uint8_t* font)
  *
  * @return Pointer to array with the currently used font
  */
-const uint8_t* GFX::getFont()
+const uint8_t* oledfx::getFont()
 {
 	return font;
 }

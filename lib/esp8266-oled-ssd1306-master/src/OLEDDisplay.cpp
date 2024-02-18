@@ -36,6 +36,7 @@
   */
 
 #include "OLEDDisplay.h"
+#include <stdlib.h>
 
 OLEDDisplay::OLEDDisplay() {
 
@@ -54,7 +55,7 @@ OLEDDisplay::OLEDDisplay() {
 }
 
 OLEDDisplay::~OLEDDisplay() {
-  end();
+  //end();
 }
 
 bool OLEDDisplay::allocateBuffer() {
@@ -117,6 +118,7 @@ void OLEDDisplay::end() {
   #endif
   if (this->logBuffer != NULL) { free(this->logBuffer); this->logBuffer = NULL; }
 }
+
 
 void OLEDDisplay::resetDisplay(void) {
   clear();
@@ -617,15 +619,15 @@ uint16_t OLEDDisplay::drawStringInternal(int16_t xMove, int16_t yMove, const cha
 }
 
 
-uint16_t OLEDDisplay::drawString(int16_t xMove, int16_t yMove, const String &strUser) {
+uint16_t OLEDDisplay::drawString(int16_t xMove, int16_t yMove, const std::string &strUser) {
   uint16_t lineHeight = pgm_read_byte(fontData + HEIGHT_POS);
 
-  // char* text must be freed!
+ // char* text must be freed!
   char* text = strdup(strUser.c_str());
-  if (!text) {
-    DEBUG_OLEDDISPLAY("[OLEDDISPLAY][drawString] Can't allocate char array.\n");
-    return 0;
-  }
+// if (!text) {
+//   DEBUG_OLEDDISPLAY("[OLEDDISPLAY][drawString] Can't allocate char array.\n");
+//    return 0;
+//  }
 
   uint16_t yOffset = 0;
   // If the string should be centered vertically too
@@ -652,7 +654,7 @@ uint16_t OLEDDisplay::drawString(int16_t xMove, int16_t yMove, const String &str
   return charDrawn;
 }
 
-void OLEDDisplay::drawStringf( int16_t x, int16_t y, char* buffer, String format, ... )
+void OLEDDisplay::drawStringf( int16_t x, int16_t y, char* buffer, std::string format, ... )
 {
   va_list myargs;
   va_start(myargs, format);
@@ -661,7 +663,7 @@ void OLEDDisplay::drawStringf( int16_t x, int16_t y, char* buffer, String format
   drawString( x, y, buffer );
 }
 
-uint16_t OLEDDisplay::drawStringMaxWidth(int16_t xMove, int16_t yMove, uint16_t maxLineWidth, const String &strUser) {
+uint16_t OLEDDisplay::drawStringMaxWidth(int16_t xMove, int16_t yMove, uint16_t maxLineWidth, const std::string &strUser) {
   uint16_t firstChar  = pgm_read_byte(fontData + FIRST_CHAR_POS);
   uint16_t lineHeight = pgm_read_byte(fontData + HEIGHT_POS);
 
@@ -741,7 +743,7 @@ uint16_t OLEDDisplay::getStringWidth(const char* text, uint16_t length, bool utf
   return max(maxWidth, stringWidth);
 }
 
-uint16_t OLEDDisplay::getStringWidth(const String &strUser) {
+uint16_t OLEDDisplay::getStringWidth(const std::string &strUser) {
   uint16_t width = getStringWidth(strUser.c_str(), strUser.length());
   return width;
 }
@@ -937,7 +939,7 @@ size_t OLEDDisplay::write(const char* str) {
   }
   return length;
 }
-
+/*
 #ifdef __MBED__
 int OLEDDisplay::_putc(int c) {
 
@@ -958,6 +960,7 @@ int OLEDDisplay::_putc(int c) {
 	return this->write((uint8_t)c);
 }
 #endif
+*/
 
 // Private functions
 void OLEDDisplay::setGeometry(OLEDDISPLAY_GEOMETRY g, uint16_t width, uint16_t height) {
@@ -1056,7 +1059,7 @@ void inline OLEDDisplay::drawInternal(int16_t xMove, int16_t yMove, int16_t widt
       yOffset = initYOffset;
     }
 
-    uint8_t currentByte = pgm_read_byte(data + offset + i);
+    uint8_t currentByte = (data + offset + i);
 
     int16_t xPos = xMove + (i / rasterHeight);
     int16_t yPos = ((yMove >> 3) + (i % rasterHeight)) * this->width();
@@ -1097,15 +1100,17 @@ void inline OLEDDisplay::drawInternal(int16_t xMove, int16_t yMove, int16_t widt
         // and setting the new yOffset
         yOffset = 8 - yOffset;
       }
+/*
 #ifndef __MBED__
       yield();
 #endif
+*/
     }
   }
 }
 
 // You need to free the char!
-char* OLEDDisplay::utf8ascii(const String &str) {
+char* OLEDDisplay::utf8ascii(const std::string &str) {
   uint16_t k = 0;
   uint16_t length = str.length() + 1;
 
