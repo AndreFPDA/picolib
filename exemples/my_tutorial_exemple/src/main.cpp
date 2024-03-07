@@ -10,6 +10,7 @@
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
 #include <../../lib/oledfx/oledfx.hpp>
+#include "../../lib/oledfx/OLED_font.hpp"
 
 using namespace std;
 
@@ -28,9 +29,10 @@ void setup() {
 int main() {
     setup();
 
-    oledfx oled(0x3C, size::W128xH64, i2c1);   //Declare oled instance
+    oledfx oled(0x3C, size_display::W128xH64, i2c1);   //Declare oled instance
     // if you are using 128x32 oled try size::W128xH32
     oled.clear();
+    oled.setFont(pFontDefault);
     oled.drawString(0, 0, "Picolib");
     oled.display();
 

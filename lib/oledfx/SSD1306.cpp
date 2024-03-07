@@ -12,7 +12,7 @@
             Pointer to an existing i2c instance.
     @return SSD1306 object.
 */
-SSD1306::SSD1306(uint16_t const DevAddr, size Size, i2c_inst_t * i2c) : DevAddr(DevAddr), width(width), height(height), i2c(i2c), Size(Size)
+SSD1306::SSD1306(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : DevAddr(DevAddr), width(width), height(height), i2c(i2c), Size(Size)
 {
 	this->width = 128;
 	this->height = 64;
@@ -141,7 +141,7 @@ void SSD1306::drawPixel(int16_t x, int16_t y, colors Color)
 {
 
 	if ((x < 0) || (x >= this->width) || (y < 0) || (y >= this->height)) return;
-	if(Size == size::W128xH32)  y = (y<<1) + 1;
+	if(Size == size_display::W128xH32)  y = (y<<1) + 1;
 
 	switch(Color)
 	{
@@ -201,7 +201,7 @@ void SSD1306::sendData(uint8_t* buffer, size_t buff_size)
  */
 uint8_t SSD1306::getHeight()
 {
-	if(this->Size == size::W128xH64) return 64;
+	if(this->Size == size_display::W128xH64) return 64;
 	else return 32;
 }
 
