@@ -38,7 +38,7 @@ enum class colors {
 	INVERSE
 };
 
-enum class size {
+enum class size_display {
 	W128xH64,
 	W128xH32
 };
@@ -50,7 +50,7 @@ class SSD1306 {
 		i2c_inst_t * i2c;
 		uint8_t width;
 		uint8_t height;
-		size Size;
+		size_display Size;
 		
 		unsigned char * buffer;
 
@@ -58,7 +58,7 @@ class SSD1306 {
 		void sendCommand(uint8_t command);
 
 	public:
-		SSD1306(uint16_t const DevAddr, size Size, i2c_inst_t * i2c);
+		SSD1306(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c);
 		~SSD1306();
 
 		void displayON(uint8_t On);

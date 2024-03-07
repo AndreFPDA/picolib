@@ -1,4 +1,5 @@
 #include "oledfx.hpp"
+#include "OLED_font.hpp"
 
 namespace {
 
@@ -12,6 +13,34 @@ namespace {
 };
 
 
+// === Font class implementation ===
+/*!
+	@brief init the OLED  font class object constructor
+ */
+SSD1306_OLEDFonts::SSD1306_OLEDFonts(){};
+
+/*!
+	@brief SSD1306_SetFont
+	@param  SelectedFontName Select this font, pass the font pointer name 
+	@return	Will return
+		-# 0. Success
+		-# 2. Not a valid pointer object.
+ */
+uint8_t SSD1306_OLEDFonts::setFont(const uint8_t * SelectedFontName) {
+	if (SelectedFontName == nullptr)
+	{
+		printf("SSD1306_OLEDFonts::setFont ERROR 2: Invalid pointer object\r\n");
+		return 2;
+	}
+	_FontSelect   = SelectedFontName;
+	_Font_X_Size  = *(SelectedFontName + 0);
+	_Font_Y_Size  = *(SelectedFontName + 1);
+	_FontOffset   = *(SelectedFontName + 2);
+	_FontNumChars = *(SelectedFontName + 3);
+
+	return 0;
+}
+
 /**
  * Create oledfx instantion 
  *
@@ -19,7 +48,7 @@ namespace {
  * @param Size screen size (W128xH64 or W128xH32)
  * @param i2c i2c instance
  */
-oledfx::oledfx(uint16_t const DevAddr, size Size, i2c_inst_t * i2c) : SSD1306(DevAddr, Size, i2c) {};
+oledfx::oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : SSD1306(DevAddr, Size, i2c) {};
 
 
 /**
@@ -30,6 +59,8 @@ oledfx::oledfx(uint16_t const DevAddr, size Size, i2c_inst_t * i2c) : SSD1306(De
  * @param chr char to be written
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
+
+/*
 void oledfx::drawChar(int x, int y, char chr, colors color)
 {
 	if(chr > 0x7E) return; // chr > '~'
@@ -47,7 +78,53 @@ void oledfx::drawChar(int x, int y, char chr, colors color)
         }
     }
 }
+*/
 
+
+void oledfx::drawChar(int x, int y, char chr, colors color) {
+	
+	uint16_t fontIndex = 0;
+	uint16_t rowCount = 0;
+	uint16_t count = 0;
+	uint8_t colIndex;
+	uint16_t temp = 0;
+	int16_t colByte, cx, cy;
+	int16_t colbit;
+
+	if(chr > 0x7E) return; // chr > '~'
+
+	if (_Font_Y_Size % 8 == 0) // Is the font height divisible by 8
+		{
+		fontIndex = ((chr - _FontOffset)*(_Font_X_Size * (_Font_Y_Size/ 8))) + 4;
+		for (rowCount = 0; rowCount < (_Font_Y_Size / 8); rowCount++) {
+			for (count = 0; count < _Font_X_Size; count++) {
+				temp = *(_FontSelect + fontIndex + count + (rowCount * _Font_X_Size));
+				for (colIndex = 0; colIndex < 8; colIndex++) {
+					this->drawPixel(x + count, y + (rowCount * 8) + colIndex, color);
+				}	
+			}
+		}
+	} 
+	
+	else {
+			fontIndex = ((chr - _FontOffset)*((_Font_X_Size * _Font_Y_Size) / 8)) + 4;
+			colByte = *(_FontSelect + fontIndex);
+			colbit = 7;
+			for (cx = 0; cx < _Font_X_Size; cx++) 
+			{
+				for (cy = 0; cy < _Font_Y_Size; cy++) 
+				{
+					this->drawPixel(x + count, y + (rowCount * 8) + colIndex, color);
+					colbit--;
+					if (colbit < 0) {
+						colbit = 7;
+						fontIndex++;
+						colByte = *(_FontSelect + fontIndex);
+					}
+				}
+			}
+		}
+}
 
 /**
  * @brief Draw string.

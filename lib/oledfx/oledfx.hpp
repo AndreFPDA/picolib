@@ -5,16 +5,34 @@
 
 #include "SSD1306.hpp"
 #include "font.hpp"
-#include <stdlib.h>
+#include "OLED_font.hpp"
 #include <string>
 
 
+class SSD1306_OLEDFonts
+{
+	public:
+		
+		SSD1306_OLEDFonts();
+		~SSD1306_OLEDFonts(){};
 
-class oledfx : public SSD1306 {
+		uint8_t setFont(const uint8_t * font);
+
+		const uint8_t * _FontSelect = pFontDefault; /**< Pointer to the active font,  Fonts Stored are Const */
+	
+	protected:
+		uint8_t _Font_X_Size = 0x06; /**< Width Size of a Font character */
+		uint8_t _Font_Y_Size = 0x08; /**< Height Size of a Font character */
+		uint8_t _FontOffset = 0x00; /**< Offset in the ASCII table 0x00 to 0xFF, where font begins */
+		uint8_t _FontNumChars = 0xFE; /**< Number of characters in font 0x00 to 0xFE */
+
+};
+
+class oledfx : public SSD1306, public SSD1306_OLEDFonts {
     const uint8_t* font = font_8x5;
 
     public:
-        oledfx(uint16_t const DevAddr, size Size, i2c_inst_t * i2c);
+        oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c);
 
         void drawChar(int x, int y, char chr, colors color = colors::WHITE);
         void drawString(int x, int y, std::string str, colors color = colors::WHITE);
