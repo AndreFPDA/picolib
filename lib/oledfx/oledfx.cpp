@@ -136,7 +136,8 @@ void oledfx::drawChar(int x, int y, char chr, colors color) {
  */
 
 void oledfx::drawString(int x, int y, std::string str, colors color){ //(int16_t x, int16_t y, char * pText) {
-	for (size_t i = 0; i < str.length(); ++i) {
+	for (size_t i = 0; i < str.length(); ++i)
+	{
 		drawChar(x + (i * (_Font_X_Size)), y, str[i], color);
 	}
 }
