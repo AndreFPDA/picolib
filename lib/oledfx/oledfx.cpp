@@ -134,18 +134,12 @@ void oledfx::drawChar(int x, int y, char chr, colors color) {
  * @param str string to be written
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
-void oledfx::drawString(int x, int y, std::string str, colors color)
-{
-	int x_tmp = x;
 
-	while(str.length())
-	{
-		this->drawChar(x_tmp, y, str.front(), color);
-		x_tmp += ((uint8_t)font[1]) + 1;
-		str.erase(str.begin());
+void oledfx::drawString(int x, int y, std::string str, colors color){ //(int16_t x, int16_t y, char * pText) {
+	for (size_t i = 0; i < str.length(); ++i) {
+		drawChar(x + (i * (_Font_X_Size)), y, str[i], color);
 	}
 }
-
 
 /**
  * @brief Draw empty rectangle.
@@ -295,10 +289,10 @@ void oledfx::drawLine(int x_start, int y_start, int x_end, int y_end, colors col
  *
  * @param font Pointer to array with your font
  */
-void oledfx::setFont(const uint8_t* font)
-{
-	this->font = font;
-}
+//void oledfx::setFont(const uint8_t* font)
+//{
+//	this->font = font;
+//}
 
 
 /**
@@ -306,7 +300,9 @@ void oledfx::setFont(const uint8_t* font)
  *
  * @return Pointer to array with the currently used font
  */
+/*
 const uint8_t* oledfx::getFont()
 {
 	return font;
 }
+*/
