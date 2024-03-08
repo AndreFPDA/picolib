@@ -29,7 +29,7 @@ class SSD1306_OLEDFonts
 };
 
 class oledfx : public SSD1306, public SSD1306_OLEDFonts {
-    const uint8_t* font = font_8x5;
+    // uint8_t* font = font_8x5;
 
     public:
         oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c);
