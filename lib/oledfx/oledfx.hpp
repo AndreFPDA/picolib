@@ -43,8 +43,8 @@ class oledfx : public SSD1306, public SSD1306_OLEDFonts {
         void drawVerticalLine(int x, int y, int w, colors color = colors::WHITE);
         void drawLine(int x_start, int y_start, int x_end, int y_end, colors color = colors::WHITE);
 
-        void setFont(const uint8_t* font);
-        const uint8_t* getFont();
+       // void setFont(const uint8_t* font);
+        //const uint8_t* getFont();
 };
 
 #endif
