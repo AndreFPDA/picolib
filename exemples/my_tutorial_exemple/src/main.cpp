@@ -32,7 +32,7 @@ int main() {
     oledfx oled(0x3C, size_display::W128xH64, i2c1);   //Declare oled instance
     // if you are using 128x32 oled try size::W128xH32
     oled.clear();
-    oled.setFont(pFontGroTesk);
+    oled.setFont(pFontArialRound);
     oled.drawString(0, 0, "Picolib");
     oled.display();
 
