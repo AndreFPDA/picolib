@@ -60,70 +60,24 @@ oledfx::oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : SS
  * @param color colors::BLACK, colors::WHITE or colors::INVERSE
  */
 
-/*
-void oledfx::drawChar(int x, int y, char chr, colors color)
-{
-	if(chr > 0x7E) return; // chr > '~'
 
-	for(uint8_t i=0; i < this->font[1]; i++ )
-	{
-        uint8_t line = (uint8_t)(this->font)[(chr-0x20) * (this->font)[1] + i + 2];
+void oledfx::drawChar(int x, int y, char chr, colors color) {
+    if (chr < _FontOffset || chr >= _FontOffset + _FontNumChars) {
+        // Caractere não disponível na fonte
+        return;
+    }
 
-        for(int8_t j=0; j<this->font[0]; j++, line >>= 1)
-        {
-            if(line & 1)
-            {
-            	this->drawPixel(x+i, y+j, color);
+    uint16_t fontIndex = (chr - _FontOffset) * ((_Font_X_Size * _Font_Y_Size) / 8) + 4;
+
+    for (int16_t row = 0; row < _Font_Y_Size; ++row) {
+        for (int16_t col = 0; col < _Font_X_Size; ++col) {
+            uint8_t bits = *(_FontSelect + fontIndex + col + (row / 8) * _Font_X_Size);
+
+            if (bits & (1 << (row % 8))) {
+                this->drawPixel(x + col, y + row, color);
             }
         }
     }
-}
-*/
-
-
-void oledfx::drawChar(int x, int y, char chr, colors color) {
-	
-	uint16_t fontIndex = 0;
-	uint16_t rowCount = 0;
-	uint16_t count = 0;
-	uint8_t colIndex;
-	uint16_t temp = 0;
-	int16_t colByte, cx, cy;
-	int16_t colbit;
-
-	if(chr > 0x7E) return; // chr > '~'
-
-	if (_Font_Y_Size % 8 == 0) // Is the font height divisible by 8
-		{
-		fontIndex = ((chr - _FontOffset)*(_Font_X_Size * (_Font_Y_Size/ 8))) + 4;
-		for (rowCount = 0; rowCount < (_Font_Y_Size / 8); rowCount++) {
-			for (count = 0; count < _Font_X_Size; count++) {
-				temp = *(_FontSelect + fontIndex + count + (rowCount * _Font_X_Size));
-				for (colIndex = 0; colIndex < 8; colIndex++) {
-					this->drawPixel(x + count, y + (rowCount * 8) + colIndex, color);
-				}	
-			}
-		}
-	} 
-	
-	else {
-			fontIndex = ((chr - _FontOffset)*((_Font_X_Size * _Font_Y_Size) / 8)) + 4;
-			colByte = *(_FontSelect + fontIndex);
-			colbit = 7;
-			for (cx = 0; cx < _Font_X_Size; cx++) 
-			{
-				for (cy = 0; cy < _Font_Y_Size; cy++) 
-				{
-					this->drawPixel(x + count, y + (rowCount * 8) + colIndex, color);
-					colbit--;
-					if (colbit < 0) {
-						colbit = 7;
-						fontIndex++;
-						colByte = *(_FontSelect + fontIndex);
-					}
-				}
-			}
-		}
 }
 
 /**
@@ -175,7 +129,6 @@ void oledfx::drawFillRectangle(int x, int y, uint16_t w, uint16_t h, colors colo
     	this->drawVerticalLine(i, y, h, color);
     }
 }
-
 
 /**
  * @brief Draw progress bar.
@@ -283,27 +236,3 @@ void oledfx::drawLine(int x_start, int y_start, int x_end, int y_end, colors col
 		}
 	}
 }
-
-
-/**
- * @brief Set your own font
- *
- * @param font Pointer to array with your font
- */
-//void oledfx::setFont(const uint8_t* font)
-//{
-//	this->font = font;
-//}
-
-
-/**
- * @brief Get pointer to font array
- *
- * @return Pointer to array with the currently used font
- */
-/*
-const uint8_t* oledfx::getFont()
-{
-	return font;
-}
-*/
