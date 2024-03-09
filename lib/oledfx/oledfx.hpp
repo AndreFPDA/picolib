@@ -4,7 +4,6 @@
 #define _oledfx_H
 
 #include "SSD1306.hpp"
-#include "font.hpp"
 #include "OLED_font.hpp"
 #include <string>
 
