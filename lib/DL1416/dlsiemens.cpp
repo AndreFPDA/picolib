@@ -17,7 +17,7 @@ DLSIEMENS::DLSIEMENS(const std::vector<int>& modulos, int wri,
     _wri(wri),
     _ds0(ds0),
     _ds1(ds1),
-    _dataCode{d0, d1, d2, d3, d4, d5, d6}
+    _dataCode({d0, d1, d2, d3, d4, d5, d6})
 {
     // Init and desable all GPIOs modules's enable_pins
 
