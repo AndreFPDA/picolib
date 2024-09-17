@@ -30,16 +30,21 @@ int main() {
     displayDL.characterSet('K', 2 , 2);
     displayDL.characterSet('L', 3 , 2);
 
-    sleep_ms(5000);
-    displayDL.writDisplay("<TESTE+1234>");
-
-    
     while (true) {
-        sleep_ms(5000);
+        // Write word to display
         displayDL.writDisplay("<TESTE+1234>");
         sleep_ms(5000);
         displayDL.writDisplay("HELLO-WORLD");
+        for (int i = 0; i < 30; ++i) {
+            displayDL.characterSet('1', 3 , 2);
+            sleep_ms(100);
+            displayDL.characterSet('/', 3 , 2);
+            sleep_ms(100);
+            displayDL.characterSet('-', 3 , 2);
+            sleep_ms(100);
+            displayDL.characterSet('\\', 3 , 2);
+            sleep_ms(100);
+        }
     }
-
     return 0;
 }
