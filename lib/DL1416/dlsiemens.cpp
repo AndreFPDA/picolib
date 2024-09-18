@@ -25,10 +25,13 @@ Permission is granted to anyone to use this software for any purpose, including 
 
 namespace DL1416 {
 
-//=================================================================================================
+//==============================================================================================================================================
 DLSIEMENS::DLSIEMENS(const std::vector<int> &modulos, int wri, int ds0, int ds1,
                      int d0, int d1, int d2, int d3, int d4, int d5, int d6)
-    : _modulos(modulos), _wri(wri), _ds0(ds0), _ds1(ds1),
+    : _modulos(modulos),
+      _wri(wri), 
+      _ds0(ds0), 
+      _ds1(ds1),
       _dataCode({d0, d1, d2, d3, d4, d5, d6}) {
   // Init and desable all GPIOs modules's enable_pins
 
