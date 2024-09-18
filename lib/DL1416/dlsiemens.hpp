@@ -1,5 +1,5 @@
 /*
-dlsiemens.cpp 
+dlsiemens.hpp 
 This file is part of the DL1416 Display Project with Raspberry Pi Pico.
  
 @author André Araújo
