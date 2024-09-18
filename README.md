@@ -62,6 +62,7 @@ mkdir build; && cd build;
 
 [!NOTE] ATTENTION: The environment variable export and CMAKE must be executed only once the terminal is opened.
 
+Do it in build and point where is the pico-sdk directory located:
 ```
 export PICO_SDK_PATH=../../../pico-sdk
 ```
