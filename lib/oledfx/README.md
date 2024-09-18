@@ -1,5 +1,7 @@
-# Raspberry Pico SSD1306 + GFX Library
+# Raspberry Pico SSD1306 + GFX Library -> Modified
 
+
+https://github.com/mbober1/RPi-Pico-SSD1306-library
 Based on Adafruit GFX Library
 https://github.com/adafruit/Adafruit-GFX-Library
 
@@ -18,30 +20,28 @@ VCC->3V3(OUT)
 ## Software
 The library needs only two files to run `SSD1306.hpp` and `SSD1306.cpp`.
 This gives you the ability to display a bitmap or array of pixels. 
-You need the GFX library to make it easier to create images for your display. (`GFX.hpp` and `GFX.cpp`)
+You need the GFX library to make it easier to create images for your display. (`oledfx.hpp` and `oledfx.cpp`)
 
 `logo.hpp` is an example showing how to create bitmaps.
-`fonts.hpp` contains one font.
+`OLED_font.cpp` contains one font.
 
 ## Example
 Repo provides an example of how a library can be used.
 
 ```
-git clone https://github.com/mbober1/RPi-Pico-SSD1306-library.git
-cd RPi-Pico-SSD1306-library/example/
+git clone https://github.com/AndreFPDA/picolib.git
+cd /picolib/exemples/my_tutorial_exemple/src
 mkdir build
 cd build
 ```
-Change path to pico-sdk in CMakeLists.txt (line 3)
+
+```
+export PICO_SDK_PATH=../../../pico-sdk
+```
+
 ```
 cmake ..
+```
+```
 make -j4
 ```
-
-## Make your own logo
-http://www.majer.ch/lcd/adf_bitmap.php
-
-## Features
-- [X] Support 128x32 displays
-- [ ] DMA Support
-- [ ] Description of each function
