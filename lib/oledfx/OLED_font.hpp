@@ -1,7 +1,9 @@
 /*!
-	@file SSD1306_OLED_font.hpp
+	@note This code was adapted from the SSD1306_OLED_font library by Gavin Lyons.
+    	@author André Araujo
+     
+	@file OLED_font.hpp
 	@brief OLED driven by SSD1306 controller. font data file 10 fonts.
-	@author Gavin Lyons.
 	@details 
 		-#  1. pFontDefault  6 by 8
 		-#  2. pFontWide  9 by 8 (NO LOWERCASE)
