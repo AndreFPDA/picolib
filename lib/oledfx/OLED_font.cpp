@@ -1,8 +1,10 @@
 /*!
-* @file SSD1306_OLED_font.cpp
+@note This code was adapted from the SSD1306_OLED_font library by Gavin Lyons.
+@author André Araujo
+
+* @file OLED_font.cpp
 * @brief OLED driven by SSD1306 controller. font data file 10 fonts. 
 *   All fonts vertically addressed data
-* @author Gavin Lyons.
 * @details <https://github.com/gavinlyonsrepo/SSD1306_OLED_PICO>
 */
 
