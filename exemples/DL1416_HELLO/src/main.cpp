@@ -13,9 +13,6 @@ using namespace std;
 DL1416::DLSIEMENS displayDL({5, 4, 3}, 2, 8, 7, 13, 12, 11, 10, 14, 15, 9);
 
 int main() {
-  gpio_init(1);
-  gpio_set_dir(1, GPIO_OUT);
-  gpio_put(1, 1);
   // Write character to display
   displayDL.characterSet('A', 0, 0);
   displayDL.characterSet('B', 1, 0);
@@ -31,6 +28,7 @@ int main() {
   displayDL.characterSet('L', 3, 2);
 
   sleep_ms(5000);
+  
   while (true) {
     // Write word to display
     displayDL.writDisplay("<TESTE+1234>");
