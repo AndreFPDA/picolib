@@ -1,6 +1,9 @@
 /*   
-@note This code was adapted from the SSD1306_OLED_font library by https://github.com/mbober1/RPi-Pico-SSD1306-library
+@note This code was adapted from the SSD1306_OLED_font library by mbober1
+@details <https://github.com/mbober1/RPi-Pico-SSD1306-library>
+
 @author André Araujo
+@details <https://github.com/AndreFPDA/picolib>
 
 @section LICENSE
 This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
