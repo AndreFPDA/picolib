@@ -31,7 +31,7 @@ int main() {
   
   while (true) {
     // Write word to display
-    displayDL.writDisplay("<TESTE+1234>");
+    displayDL.writDisplay("<TEST+1234> ");
     sleep_ms(5000);
     displayDL.writDisplay("HELLO-WORLD");
     for (int i = 0; i < 30; ++i) {
