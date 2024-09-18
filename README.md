@@ -109,9 +109,9 @@ It is available for Linux and Windows.
 
 It can be downloaded from the following link: https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
 
-## 4. Editing the code
+## 4. Editing the code - Recommended
 
-### 4.2 Clang Format - To keep the code organized in a standardized manner - MANDATORY.
+### 4.2 Clang Format - To keep the code organized in a standardized manner.
 
 - Installing Clang Format 11:
 
@@ -125,7 +125,7 @@ sudo apt install clang-format-11
 clang-format-11 -i file_name_format.cpp
 ```
 
-### 4.3 VSCode Environment - Recommended
+### 4.3 VSCode Environment
 
 - Linux packages that must be installed beforehand:
 
