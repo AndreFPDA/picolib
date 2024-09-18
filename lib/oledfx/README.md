@@ -1,10 +1,10 @@
 # Raspberry Pico SSD1306 + GFX Library -> Modified
 
+Based onmbober1 Library
+-> https://github.com/mbober1/RPi-Pico-SSD1306-library
 
-https://github.com/mbober1/RPi-Pico-SSD1306-library
 Based on Adafruit GFX Library
-https://github.com/adafruit/Adafruit-GFX-Library
-
+->  https://github.com/adafruit/Adafruit-GFX-Library
 
 # Usage
 
