@@ -18,7 +18,7 @@ Connect the pins of the DL1416 display to the GPIO pins of the Raspberry Pi Pico
 | CE1         | GPIO 5   | Enable DL1     |
 | CE2         | GPIO 4   | Enable DL2     |
 | CE3         | GPIO 3   | Enable DL3     |
-| Cu          | Vcc 3.3  | Cursor         |
+| CU          | Vcc 3.3  | Cursor         |
 | WRI         | GPIO 2   | Write          |
 | DS0         | GPIO 8   | Data Select 0  |
 | DS1         | GPIO 7   | Data Select 1  |
