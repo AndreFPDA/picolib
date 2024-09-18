@@ -28,8 +28,6 @@ class SSD1306_OLEDFonts
 };
 
 class oledfx : public SSD1306, public SSD1306_OLEDFonts {
-    // uint8_t* font = font_8x5;
-
     public:
         oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c);
 
@@ -41,9 +39,6 @@ class oledfx : public SSD1306, public SSD1306_OLEDFonts {
         void drawHorizontalLine(int x, int y, int w, colors color = colors::WHITE);
         void drawVerticalLine(int x, int y, int w, colors color = colors::WHITE);
         void drawLine(int x_start, int y_start, int x_end, int y_end, colors color = colors::WHITE);
-
-       // void setFont(const uint8_t* font);
-        //const uint8_t* getFont();
 };
 
 #endif
