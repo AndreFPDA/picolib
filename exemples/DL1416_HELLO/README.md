@@ -33,7 +33,7 @@ Connect the pins of the DL1416 display to the GPIO pins of the Raspberry Pi Pico
 
 The wri, ds0, ds1, d0, d1, d2, d3, d4, d5 and d6 pins are common among all DL1416 modules.
 
-If you want to add another DL1416 module, just connect the CE (enable) pin to a free GPIO on the Raspberry Pico and declare it in the code.
+If you want to add another DL1416 module, just connect the CE (enable) pin to a GPIO not used on the Raspberry Pico and declare it in the code.
 
 Exemple: 
 
