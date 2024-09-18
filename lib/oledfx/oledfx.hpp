@@ -2,7 +2,7 @@
 @note This code was adapted from the SSD1306_OLED_font library by mbober1
 @details <https://github.com/mbober1/RPi-Pico-SSD1306-library>
 
-@author André Araujo
+@author André Araújo
 @details <https://github.com/AndreFPDA/picolib>
 
 @section LICENSE
