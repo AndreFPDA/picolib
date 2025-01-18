@@ -14,18 +14,18 @@ To prepare the development environment, follow these steps:
 
 ```
 cd ~/
-mkdir pico
-cd pico
+mkdir pico;
+cd pico;
 ```
 
 - Clone the SDK and examples:
 
 ```
-git clone https://github.com/raspberrypi/pico-sdk.git --branch master
-cd pico-sdk
-git submodule update --init
-cd ..
-git clone https://github.com/raspberrypi/pico-examples.git --branch master
+git clone https://github.com/raspberrypi/pico-sdk.git --branch master;
+cd pico-sdk;
+git submodule update --init;
+cd ..;
+git clone https://github.com/raspberrypi/pico-examples.git --branch master;
 ```
 
 - Install the Toolchain
@@ -47,24 +47,24 @@ To set up the development environment, follow these steps:
 - Clone this project into the directory:
 
 ```
-cd ~/pico
+cd ~/pico;
 git clone https://github.com/AndreFPDA/picolib.git
 ```
 
 - Within this project's directory, the `build` directory must be created;
 
 ```
-cd picolib/src/
+cd picolib/exemples/my_project/src/
 mkdir build; && cd build;
 ```
 
-- The following environment variable must be executed in the terminal inside the `~/pico/picolib/src/build` directory:
+- The following environment variable must be executed in the terminal inside the `~picolib/exemples/my_project/src/` directory:
 
 [!NOTE] ATTENTION: The environment variable export and CMAKE must be executed only once the terminal is opened.
 
 Do it in build and point where is the pico-sdk directory located:
 ```
-export PICO_SDK_PATH=../../../pico-sdk
+export PICO_SDK_PATH=../../../../../pico-sdk
 ```
 
 ```
