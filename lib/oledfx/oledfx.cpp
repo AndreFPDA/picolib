@@ -1,5 +1,6 @@
 #include "oledfx.hpp"
 #include "OLED_font.hpp"
+#include "hardware/gpio.h"
 
 namespace {
 
@@ -47,8 +48,21 @@ uint8_t SSD1306_OLEDFonts::setFont(const uint8_t * SelectedFontName) {
  * @param DevAddr device i2c address.
  * @param Size screen size (W128xH64 or W128xH32)
  * @param i2c i2c instance
+ * @param sda_pin GPIO used as I2C SDA
+ * @param scl_pin GPIO used as I2C SCL
+ * @param baudrate I2C bus speed in Hz
  */
-oledfx::oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : SSD1306(DevAddr, Size, i2c) {};
+i2c_inst_t * oledfx::setupI2C(i2c_inst_t * i2c, uint sda_pin, uint scl_pin, uint baudrate) {
+	i2c_init(i2c, baudrate);
+	gpio_set_function(sda_pin, GPIO_FUNC_I2C);
+	gpio_set_function(scl_pin, GPIO_FUNC_I2C);
+	gpio_pull_up(sda_pin);
+	gpio_pull_up(scl_pin);
+	return i2c;
+}
+
+oledfx::oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c, uint sda_pin, uint scl_pin, uint baudrate)
+	: SSD1306(DevAddr, Size, setupI2C(i2c, sda_pin, scl_pin, baudrate)) {};
 
 
 /**
@@ -142,6 +156,7 @@ void oledfx::drawFillRectangle(int x, int y, uint16_t w, uint16_t h, colors colo
  */
 void oledfx::drawProgressBar(int x, int y, uint16_t w, uint16_t h, uint8_t progress, colors color)
 {
+    if (progress > 100) progress = 100;
     this->drawRectangle(x, y, w, h, color);
     this->drawFillRectangle(x, y, (uint8_t)((w*progress)/100), h, color);
 }

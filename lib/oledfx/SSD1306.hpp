@@ -53,6 +53,7 @@ class SSD1306 {
 		size_display Size;
 		
 		unsigned char * buffer;
+		unsigned char * txbuf; /**< buffer + leading 0x40 control byte, sent as a single I2C transaction */
 
 		void sendData(uint8_t* buffer, size_t buff_size);
 		void sendCommand(uint8_t command);

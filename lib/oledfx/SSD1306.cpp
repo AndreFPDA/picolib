@@ -12,12 +12,14 @@
             Pointer to an existing i2c instance.
     @return SSD1306 object.
 */
-SSD1306::SSD1306(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : DevAddr(DevAddr), width(width), height(height), i2c(i2c), Size(Size)
+SSD1306::SSD1306(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : DevAddr(DevAddr), i2c(i2c), Size(Size)
 {
 	this->width = 128;
 	this->height = 64;
 	
 	this->buffer = new unsigned char[this->width*this->height/8];
+	this->txbuf = new unsigned char[this->width*this->height/8 + 1];
+	this->txbuf[0] = 0x40;
 	this->sendCommand(SSD1306_DISPLAYOFF);
 
 	this->sendCommand(SSD1306_SETLOWCOLUMN);
@@ -66,7 +68,8 @@ SSD1306::SSD1306(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : 
 */
 SSD1306::~SSD1306() 
 {
-	delete this->buffer;
+	delete[] this->buffer;
+	delete[] this->txbuf;
 }
 
 
@@ -139,8 +142,8 @@ void SSD1306::setContrast(uint8_t Contrast)
  */
 void SSD1306::drawPixel(int16_t x, int16_t y, colors Color)
 {
-
-	if ((x < 0) || (x >= this->width) || (y < 0) || (y >= this->height)) return;
+	// bounds must use the logical height (32 for W128xH32), not the physical buffer height
+	if ((x < 0) || (x >= this->width) || (y < 0) || (y >= this->getHeight())) return;
 	if(Size == size_display::W128xH32)  y = (y<<1) + 1;
 
 	switch(Color)
@@ -186,12 +189,10 @@ void SSD1306::display(unsigned char *data)
 
 void SSD1306::sendData(uint8_t* buffer, size_t buff_size)
 {
-	unsigned char mess[buff_size+1];
-
-	mess[0] = 0x40;
-	memcpy(mess+1, buffer, buff_size);
-
-	i2c_write_blocking(this->i2c, this->DevAddr, mess, buff_size+1, false);
+	// control byte + data must go out as a single transaction, or the SSD1306
+	// treats the first data byte as a new control byte and corrupts the GDDRAM write
+	memcpy(this->txbuf + 1, buffer, buff_size);
+	i2c_write_blocking(this->i2c, this->DevAddr, this->txbuf, buff_size + 1, false);
 }
 
 

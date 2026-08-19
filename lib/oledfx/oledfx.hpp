@@ -44,7 +44,8 @@ class SSD1306_OLEDFonts
 
 class oledfx : public SSD1306, public SSD1306_OLEDFonts {
     public:
-        oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c);
+        oledfx(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c,
+               uint sda_pin = 14, uint scl_pin = 15, uint baudrate = 400000);
 
         void drawChar(int x, int y, char chr, colors color = colors::WHITE);
         void drawString(int x, int y, std::string str, colors color = colors::WHITE);
@@ -54,6 +55,10 @@ class oledfx : public SSD1306, public SSD1306_OLEDFonts {
         void drawHorizontalLine(int x, int y, int w, colors color = colors::WHITE);
         void drawVerticalLine(int x, int y, int w, colors color = colors::WHITE);
         void drawLine(int x_start, int y_start, int x_end, int y_end, colors color = colors::WHITE);
+
+    private:
+        // runs before the SSD1306 base constructor, which already sends I2C commands
+        static i2c_inst_t * setupI2C(i2c_inst_t * i2c, uint sda_pin, uint scl_pin, uint baudrate);
 };
 
 #endif
