@@ -21,12 +21,12 @@ This example writes and then reads a text file (`test02.txt`) on a microSD card 
 
 Clone the library in:
 
-`/home/andre-araujo/Documentos/projetos/picolib/lib/`
+`projetos/picolib/lib/`
 
 Commands:
 
 ```sh
-cd /home/andre-araujo/Documentos/projetos/picolib/lib
+cd /picolib/lib
 git clone https://github.com/carlk3/no-OS-FatFS-SD-SPI-RPi-Pico.git
 ```
 
