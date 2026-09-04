@@ -31,7 +31,7 @@ git clone https://github.com/raspberrypi/pico-examples.git --branch master;
 - Install the Toolchain
 
 ```
-sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential
+sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential -y
 ```
 ## 2. Preparing the development board:
 
