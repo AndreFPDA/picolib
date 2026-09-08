@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
-include(pico_sdk_import.cmake)
+set(PICO_SDK_PATH "$ENV{HOME}/pico/pico-sdk" CACHE PATH "Path to the Raspberry Pi Pico SDK")
+include(${CMAKE_CURRENT_LIST_DIR}/../display_oledi2c/src/pico_sdk_import.cmake)
 
 #project(picolib)
 
@@ -18,24 +19,30 @@ pico_sdk_init()
 
 add_executable(main
         main.cpp
+        src/t-rex-duino.cpp
+        src/bit_map_img.cpp
 )
 
 target_sources(main
-        PUBLIC
-            ${CMAKE_CURRENT_LIST_DIR}/../../../lib/oledfx/SSD1306.cpp
-            ${CMAKE_CURRENT_LIST_DIR}/../../../lib/oledfx/oledfx.cpp
-            ${CMAKE_CURRENT_LIST_DIR}/../../../lib/oledfx/OLED_font.cpp
+        PRIVATE
+            ${CMAKE_CURRENT_LIST_DIR}/../../lib/oledfx/SSD1306.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/../../lib/oledfx/oledfx.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/../../lib/oledfx/OLED_font.cpp
 )
 
- target_include_directories(main
-    PUBLIC
-        ${CMAKE_CURRENT_LIST_DIR}/../
+target_include_directories(main
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}/src
+        ${CMAKE_CURRENT_LIST_DIR}/../../lib
 )
 
 # pull in common dependencies
 target_link_libraries(main
         pico_stdlib
+        pico_rand
         hardware_i2c
+        hardware_gpio
+        hardware_pwm
 )
 
 # enable usb output, disable uart output

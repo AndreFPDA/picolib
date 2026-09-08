@@ -9,25 +9,28 @@
 #include <stdint.h>
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
-#include <../lib/oledfx/oledfx.hpp>
-#include "../lib/oledfx/OLED_font.hpp"
+#include "../../lib/oledfx/oledfx.hpp"
+#include "../../lib/oledfx/OLED_font.hpp"
 
-#include "t-rex-duino.h"
+#include "src/t-rex-duino.hpp"
 
 using namespace std;
 
 oledfx oled(
-    DevAddr = 0x3C,
-    Size = size_display::W128xH64,
-    i2c = i2c1,
-    sda_pin = 14,
-    scl_pin = 15);
+    0x3C,
+    size_display::W128xH64,
+    i2c1,
+    14,
+    15);
 
 void setup()
 {
     // setup display
     printf("=== DINO GAME - BUTTON BUILD v3 - GPIO5 ===\n");
     stdio_init_all();
+    gpio_init(5);
+    gpio_set_dir(5, GPIO_IN);
+    gpio_pull_up(5);
 }
 
 int main()

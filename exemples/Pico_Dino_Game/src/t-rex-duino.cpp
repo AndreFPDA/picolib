@@ -7,6 +7,38 @@
  */
 
 #include "t-rex-duino.hpp"
+#include "t_rex_core/TRexCore.h"
+#include "pico/stdlib.h"
+#include "pico/rand.h"
+#include "hardware/gpio.h"
+#include "hardware/pwm.h"
+
+#define TOUCH_SENSOR_PIN 5
+#define BUZZER_PIN 12
+#define LOW false
+#define HIGH true
+
+static bool digitalRead(uint pin) {
+  return gpio_get(pin);
+}
+
+static unsigned long millis() {
+  return to_ms_since_boot(get_absolute_time());
+}
+
+static void noTone(uint pin) {
+  pwm_set_enabled(pwm_gpio_to_slice_num(pin), false);
+}
+
+static void tone(uint pin, uint frequency) {
+  const uint slice = pwm_gpio_to_slice_num(pin);
+  gpio_set_function(pin, GPIO_FUNC_PWM);
+  pwm_config config = pwm_get_default_config();
+  pwm_config_set_clkdiv(&config, 1.0f);
+  pwm_config_set_wrap(&config, 125000000 / frequency - 1);
+  pwm_init(slice, &config, true);
+  pwm_set_gpio_level(pin, (125000000 / frequency) / 2);
+}
 
 namespace t_rex {
 
@@ -178,8 +210,6 @@ void clearTouchState() {
 #define TARGET_FPS_START 23
 #define TARGET_FPS_MAX 48
 
-/* Includes */
-#include "TRexCore.h"
 using namespace TRexGame;
 
 /* Defines and globals */
@@ -189,8 +219,7 @@ using namespace TRexGame;
 #define LCD_PART_BUFF_HEIGHT (VIRTUAL_HEIGHT_BUFFER_ROWS_BY_8_PIXELS * 8)
 #define LCD_PART_BUFF_SZ ((LCD_PART_BUFF_HEIGHT / 8) * LCD_PART_BUFF_WIDTH)
 
-I2C i2c;
-SH1106<I2C> lcd(i2c, LCD_BYTE_SZIE);
+oledfx lcd(0x3C, size_display::W128xH64, i2c1, 14, 15);
 
 bool dinoFirstRun = true;
 
@@ -204,12 +233,7 @@ uint8_t randByte() {
   c = (c << 1) | (c >> 15);
   c = (c << 1) | (c >> 15);
   c = (c << 1) | (c >> 15);
-#if defined(ESP8266) || defined(ESP32)
-  c = analogRead(A0) ^ ESP.getCycleCount() ^ c;
-#else
-  c = analogRead(A2) ^ analogRead(A3) ^ analogRead(A4) ^ analogRead(A5) ^
-      analogRead(A6) ^ analogRead(A7) ^ c;
-#endif
+  c ^= static_cast<uint16_t>(get_rand_32());
   return c;
 }
 
@@ -264,7 +288,7 @@ void gameLoop() {
   uint8_t lives = LIVES_START;
   bool night = false;
   bool jumpSoundPlayed = false;
-  lcd.setInverse(night);
+  lcd.invertColors(night);
 
   // main cycle
   while (1) {
@@ -286,15 +310,14 @@ void gameLoop() {
         bitCanvas.render(restartIconSprite);
       }
       // update screen
-      lcd.fillScreen(lcdBuff, LCD_PART_BUFF_SZ,
-                     LCD_IF_VIRTUAL_WIDTH(LCD_PART_BUFF_WIDTH, 0));
+      lcd.display(lcdBuff);
       if (bitCanvas.nextPart())
         break;
     }
 
     // exit game on game over
     if (gameOver) {
-      delay(500);
+      sleep_ms(500);
       clearTouchState();
 
       while (1) {
@@ -357,7 +380,7 @@ void gameLoop() {
     heartsSprite.limitRenderWidthTo = 6 * lives + 1;
     // switch day and night
     if (!(score % DAY_NIGHT_SWITCH_CYCLES))
-      lcd.setInverse(night = !night);
+      lcd.invertColors(night = !night);
 
     const uint8_t frameTime = 1000 / targetFPS;
 
@@ -374,13 +397,8 @@ void gameLoop() {
 }
 
 void spalshScreen() {
-  lcd.setAddressingMode(lcd.HorizontalAddressingMode);
-  uint8_t buff[32];
-  for (uint8_t i = 0; i < LCD_BYTE_SZIE / sizeof(buff); ++i) {
-    memcpy_P(buff, splash_screen_bitmap + 2 + uint16_t(i) * sizeof(buff),
-             sizeof(buff));
-    lcd.fillScreen(buff, sizeof(buff));
-  }
+  lcd.clear();
+  lcd.display();
 
   while (isPressedJump()) {
     yield();
@@ -406,11 +424,8 @@ void dino_enter() {
 
 void runDinoGame() {
   if (dinoFirstRun) {
-    lcd.begin();
-    lcd.setInverse(false);
+    lcd.invertColors(false);
     spalshScreen();
-    lcd.setAddressingMode(LCD_IF_VIRTUAL_WIDTH(lcd.VerticalAddressingMode,
-                                               lcd.HorizontalAddressingMode));
     srand((randByte() << 8) | randByte());
     dinoFirstRun = false;
   }
