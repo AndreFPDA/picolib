@@ -10,7 +10,7 @@
 #endif
 
 #ifndef pgm_read_byte
-#define pgm_read_byte(address) (*(address))
+#define pgm_read_byte(address) (*reinterpret_cast<const uint8_t *>(address))
 #endif
 
 namespace TRexGame {

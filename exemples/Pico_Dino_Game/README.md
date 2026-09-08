@@ -90,3 +90,18 @@ dino-esp32/
 - YouTube: [@techtadka360official](https://youtube.com/@techtadka360official?si=GdlIntZKv30kPgBk)
 - Instagram: [@techtadka360official](https://www.instagram.com/techtadka360official?igsh=cWR4bnhjdWw1MHdh)
 - Facebook: [TechTadka360](https://www.facebook.com/share/1EkKAJNLdB/)
+
+
+
+para compilar:
+cd ~/projetos_pico/picolib
+
+export PICO_SDK_PATH="$HOME/pico/pico-sdk"
+
+rm -rf exemples/Pico_Dino_Game/build
+
+cmake -S exemples/Pico_Dino_Game \
+      -B exemples/Pico_Dino_Game/build \
+      -DPICO_SDK_PATH="$PICO_SDK_PATH"
+
+cmake --build exemples/Pico_Dino_Game/build -j"$(nproc)"

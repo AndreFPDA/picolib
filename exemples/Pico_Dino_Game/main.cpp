@@ -42,27 +42,6 @@ int main()
     oled.setFont(pFontDefault);
     oled.drawString(0, 0, "Picolib");
     oled.display();
+    t_rex::runDinoGame();
 
-    getchar(); // Aguarda receber qualquer coisa
-    printf("COM?\n");
-    getchar(); // Aguarda receber qualquer coisa
-    oled.clear();
-    oled.drawString(0, 0, "COM-ACK");
-    oled.display();
-    printf("COM-ACK\n");
-
-    char serialImput;
-
-    while (true)
-    {
-        serialImput = getchar();
-        if (serialImput != '\0')
-        { // diferente de vasio
-            oled.clear();
-            oled.drawString(0, 0, "Recebido:");
-            oled.drawChar(3, 10, serialImput);
-            oled.display();
-            printf("Recebido: %c\n", serialImput);
-        }
-    }
 }

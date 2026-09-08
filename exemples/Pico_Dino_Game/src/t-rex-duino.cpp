@@ -18,6 +18,8 @@
 #define LOW false
 #define HIGH true
 
+extern "C" void tud_task(void);
+
 static bool digitalRead(uint pin) {
   return gpio_get(pin);
 }
@@ -38,6 +40,10 @@ static void tone(uint pin, uint frequency) {
   pwm_config_set_wrap(&config, 125000000 / frequency - 1);
   pwm_init(slice, &config, true);
   pwm_set_gpio_level(pin, (125000000 / frequency) / 2);
+}
+
+static void serviceUsb() {
+  tud_task();
 }
 
 namespace t_rex {
@@ -194,7 +200,7 @@ void clearTouchState() {
 #define LCD_SSD1306
 #define LCD_HEIGHT 64U
 #define LCD_WIDTH 128U
-#define VIRTUAL_HEIGHT_BUFFER_ROWS_BY_8_PIXELS 4
+// #define VIRTUAL_HEIGHT_BUFFER_ROWS_BY_8_PIXELS 4
 
 /* Misc. Settings */
 #define PLAYER_SAFE_ZONE_WIDTH 32
@@ -331,7 +337,7 @@ void gameLoop() {
           clearTouchState();
           return;
         }
-        yield();
+        serviceUsb();
       }
     }
 
@@ -388,9 +394,7 @@ void gameLoop() {
     while (millis() - prvT < frameTime) {
       updateTouch();
       buzzer_update();
-#if defined(ESP8266) || defined(ESP32)
-      yield();
-#endif
+  serviceUsb();
     }
     prvT = millis();
   }
@@ -401,7 +405,7 @@ void spalshScreen() {
   lcd.display();
 
   while (isPressedJump()) {
-    yield();
+    serviceUsb();
   }
 
   clearTouchState();
@@ -413,7 +417,7 @@ void spalshScreen() {
       clearTouchState();
       break;
     }
-    yield();
+    serviceUsb();
   }
 }
 
