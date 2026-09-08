@@ -1,0 +1,65 @@
+/**
+ * Copyright (c) 2020 Raspberry Pi (Trading) Ltd.
+ *
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+#include <iostream>
+#include <string>
+#include <stdio.h>
+#include <stdint.h>
+#include "pico/stdlib.h"
+#include "hardware/i2c.h"
+#include <../lib/oledfx/oledfx.hpp>
+#include "../lib/oledfx/OLED_font.hpp"
+
+#include "t-rex-duino.h"
+
+using namespace std;
+
+oledfx oled(
+    DevAddr = 0x3C,
+    Size = size_display::W128xH64,
+    i2c = i2c1,
+    sda_pin = 14,
+    scl_pin = 15);
+
+void setup()
+{
+    // setup display
+    printf("=== DINO GAME - BUTTON BUILD v3 - GPIO5 ===\n");
+    stdio_init_all();
+}
+
+int main()
+{
+    setup();
+
+    // if you are using 128x32 oled try size::W128xH32
+    oled.clear();
+    oled.setFont(pFontDefault);
+    oled.drawString(0, 0, "Picolib");
+    oled.display();
+
+    getchar(); // Aguarda receber qualquer coisa
+    printf("COM?\n");
+    getchar(); // Aguarda receber qualquer coisa
+    oled.clear();
+    oled.drawString(0, 0, "COM-ACK");
+    oled.display();
+    printf("COM-ACK\n");
+
+    char serialImput;
+
+    while (true)
+    {
+        serialImput = getchar();
+        if (serialImput != '\0')
+        { // diferente de vasio
+            oled.clear();
+            oled.drawString(0, 0, "Recebido:");
+            oled.drawChar(3, 10, serialImput);
+            oled.display();
+            printf("Recebido: %c\n", serialImput);
+        }
+    }
+}
