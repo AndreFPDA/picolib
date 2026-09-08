@@ -30,6 +30,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/../../../lib/no-OS-FatFS-SD-SPI-RPi-P
 target_sources(main
         PUBLIC
             ${CMAKE_CURRENT_LIST_DIR}/../../../lib/DL1416/dlsiemens.cpp
+            ${CMAKE_CURRENT_LIST_DIR}/hw_config.c
 )
 
  target_include_directories(main
