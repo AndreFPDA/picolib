@@ -13,6 +13,7 @@ project(picolib
 set(FILE_ELF ${CMAKE_PROJECT_NAME}.elf)
 set(FILE_HEX ${CMAKE_PROJECT_NAME}.hex)
 
+
 # Initialize the SDK
 pico_sdk_init()
 

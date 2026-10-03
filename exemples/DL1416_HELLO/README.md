@@ -50,12 +50,15 @@ link datasheet: https://cdn.hackaday.io/files/17983769384672/dl1416.pdf
 ## Compilation and Execution
 
 1. Compile the code:
-    ```sh
-    mkdir build
-    cd build
-    cmake ..
-    make
+    ```shell
+    cd src;
+    mkdir build;
+    cd build;
+    export PICO_SDK_PATH=~/pico/pico-sdk;
+    cmake ..;
+    make;
     ```
+
 2. Upload the code to the Raspberry Pi Pico:
     - Connect the Pico to your computer while holding the BOOTSEL button.
     - Drag and drop the generated `.uf2` file onto the mounted USB drive.

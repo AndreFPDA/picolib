@@ -73,11 +73,12 @@ Important:
 From the `src` folder:
 
 ```sh
-cd src
-mkdir -p build
-cd build
-cmake ..
-make -j
+    cd src;
+    mkdir build;
+    cd build;
+    export PICO_SDK_PATH=~/pico/pico-sdk;
+    cmake ..;
+    make;
 ```
 
 Generated UF2 binary:

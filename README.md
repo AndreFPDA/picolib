@@ -64,7 +64,7 @@ mkdir build; && cd build;
 
 Do it in build and point where is the pico-sdk directory located:
 ```
-export PICO_SDK_PATH=../../../../../pico-sdk
+export PICO_SDK_PATH=~/pico/pico-sdk
 ```
 
 ```

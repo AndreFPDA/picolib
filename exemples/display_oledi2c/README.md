@@ -35,12 +35,13 @@ oledfx oled(0x3C, size_display::W128xH64, i2c1, 14, 15, 400000);
 ## Compilation and Execution
 
 1. Compile the code:
-    ```sh
-    cd src
-    mkdir build
-    cd build
-    cmake ..
-    make
+    ```shell
+    cd src;
+    mkdir build;
+    cd build;
+    export PICO_SDK_PATH=~/pico/pico-sdk;
+    cmake ..;
+    make;
     ```
 2. Upload the code to the Raspberry Pi Pico:
     - Connect the Pico to your computer while holding the BOOTSEL button.
