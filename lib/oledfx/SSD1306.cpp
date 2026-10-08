@@ -47,7 +47,7 @@ SSD1306::SSD1306(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : 
 	this->sendCommand(0x22);
 
 	this->sendCommand(SSD1306_SETCOMPINS);
-	this->sendCommand(0x12);
+	this->sendCommand(0x02); // some 128x64 SSD1306 clones use sequential COM pin config (0x02) instead of the standard alternative config (0x12)
 	
 	this->sendCommand(SSD1306_SETVCOMDETECT);	
 	this->sendCommand(0x40);
@@ -180,7 +180,14 @@ void SSD1306::clear(colors Color)
 void SSD1306::display(unsigned char *data)
 {
 	if(data == nullptr) data = this->buffer;
-	this->sendCommand(0x22);
+	// Explicitly reset both column and page pointers before every full-buffer
+	// write; relying on the controller's power-on default column range can
+	// leave stale addressing state after partial writes and desync the GDDRAM
+	// pointer, which shows up as broken/interleaved rows on screen.
+	this->sendCommand(SSD1306_COLUMNADDR);
+	this->sendCommand(0x00);
+	this->sendCommand(this->width - 1);
+	this->sendCommand(SSD1306_PAGEADDR);
 	this->sendCommand(0x00);
 	this->sendCommand(0x07);
 	this->sendData(data, this->width*this->height/8);
