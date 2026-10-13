@@ -47,7 +47,7 @@ SSD1306::SSD1306(uint16_t const DevAddr, size_display Size, i2c_inst_t * i2c) : 
 	this->sendCommand(0x22);
 
 	this->sendCommand(SSD1306_SETCOMPINS);
-	this->sendCommand(0x02); // some 128x64 SSD1306 clones use sequential COM pin config (0x02) instead of the standard alternative config (0x12)
+	this->sendCommand(0x12); // standard alternative COM pin config for 128x64 panels
 	
 	this->sendCommand(SSD1306_SETVCOMDETECT);	
 	this->sendCommand(0x40);
