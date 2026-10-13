@@ -16,15 +16,10 @@
 
 
 using namespace std;
-
 #define SCL_OLED 3
 #define SDA_OLED 2
 
-// baudrate lowered to 100kHz (I2C standard mode): weak RP2040 internal
-// pull-ups + breadboard wiring without external pull-up resistors tend to
-// corrupt data during the large full-buffer transfer at 400kHz, which shows
-// up as broken/interleaved rows on screen
-static oledfx oled(0x3C, size_display::W128xH64, i2c1, SDA_OLED, SCL_OLED, 100000);
+static oledfx oled(0x3C, size_display::W128xH64, i2c1, SDA_OLED, SCL_OLED);
 
 void setup() {
     //setup display
@@ -34,6 +29,11 @@ void setup() {
 int main() {
     setup();
 
+    // oled must be constructed here (after setup()/stdio_init_all()), not as
+    // a static/global: a global would run its constructor - which fires the
+    // whole SSD1306 I2C init sequence - before main() even starts, too early
+    // for the board/display power rails to settle, corrupting the init
+    // commands and causing broken/interleaved rows on screen.
 
     // if you are using 128x32 oled try size::W128xH32
     oled.setFont(pFontArialRound);
