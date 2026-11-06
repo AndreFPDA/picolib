@@ -15,22 +15,22 @@
 
 static bool led_on = true;
 
-// Buffers estáticos para evitar estouro da pilha (stack overflow)
+// Static buffers keep large HTTP data off the stack.
 static char http_request[REQUEST_BUFFER_SIZE];
 static char http_body[1024];
 static char http_response[RESPONSE_BUFFER_SIZE];
 
 static int build_html_response(char *response, size_t response_size) {
-    const char *status_text = led_on ? "LIGADO" : "DESLIGADO";
+    const char *status_text = led_on ? "ON" : "OFF";
     const char *status_color = led_on ? "#28a745" : "#dc3545";
-    const char *btn_text = led_on ? "DESLIGAR LED" : "LIGAR LED";
+    const char *btn_text = led_on ? "TURN LED OFF" : "TURN LED ON";
     const char *btn_color = led_on ? "#dc3545" : "#28a745";
 
     int body_length = snprintf(
         http_body,
         sizeof(http_body),
         "<!doctype html>"
-        "<html lang=\"pt-BR\"><head><meta charset=\"UTF-8\">"
+        "<html lang=\"en\"><head><meta charset=\"UTF-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
         "<title>Pico 2 W</title>"
         "<style>"
@@ -41,7 +41,7 @@ static int build_html_response(char *response, size_t response_size) {
         "</style></head>"
         "<body><div class=\"card\">"
         "<h1>Raspberry Pi Pico 2 W</h1>"
-        "<div class=\"status\">LED onboard: %s</div>"
+        "<div class=\"status\">Onboard LED: %s</div>"
         "<a href=\"/toggle\" class=\"btn\">%s</a>"
         "</div></body></html>",
         status_color,
@@ -92,7 +92,7 @@ static err_t http_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t er
     tcp_recved(tpcb, p->tot_len);
     pbuf_free(p);
 
-    // Responde 404 para requisições de favicon
+    // Return 404 for favicon requests.
     if (strncmp(http_request, "GET /favicon.ico", 16) == 0) {
         const char *not_found = "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n";
         tcp_write(tpcb, not_found, (u16_t)strlen(not_found), TCP_WRITE_FLAG_COPY);
@@ -101,12 +101,12 @@ static err_t http_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t er
         return ERR_OK;
     }
 
-    // Ao acionar /toggle, alterna o LED e redireciona para "/" (HTTP 303)
-    // Isso evita que atualizar a página (F5) reenvie o comando de toggle
+    // Toggle the LED and redirect to "/" with HTTP 303.
+    // This prevents a page refresh from repeating the toggle command.
     if (strncmp(http_request, "GET /toggle", 11) == 0) {
         led_on = !led_on;
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, led_on ? 1 : 0);
-        printf("LED onboard alterado para: %s\n", led_on ? "LIGADO" : "DESLIGADO");
+        printf("Onboard LED changed to: %s\n", led_on ? "ON" : "OFF");
 
         const char *redirect =
             "HTTP/1.1 303 See Other\r\n"
@@ -124,7 +124,7 @@ static err_t http_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t er
     if (strncmp(http_request, "GET /on", 7) == 0) {
         led_on = true;
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
-        printf("LED onboard: LIGADO\n");
+        printf("Onboard LED: ON\n");
 
         const char *redirect = "HTTP/1.1 303 See Other\r\nLocation: /\r\nConnection: close\r\n\r\n";
         tcp_write(tpcb, redirect, (u16_t)strlen(redirect), TCP_WRITE_FLAG_COPY);
@@ -136,7 +136,7 @@ static err_t http_recv(void *arg, struct tcp_pcb *tpcb, struct pbuf *p, err_t er
     if (strncmp(http_request, "GET /off", 8) == 0) {
         led_on = false;
         cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
-        printf("LED onboard: DESLIGADO\n");
+        printf("Onboard LED: OFF\n");
 
         const char *redirect = "HTTP/1.1 303 See Other\r\nLocation: /\r\nConnection: close\r\n\r\n";
         tcp_write(tpcb, redirect, (u16_t)strlen(redirect), TCP_WRITE_FLAG_COPY);
@@ -185,25 +185,25 @@ static err_t http_accept(void *arg, struct tcp_pcb *client_pcb, err_t err) {
 static bool http_server_open(void) {
     struct tcp_pcb *server_pcb = tcp_new_ip_type(IPADDR_TYPE_V4);
     if (server_pcb == NULL) {
-        printf("Falha ao criar o servidor TCP\n");
+        printf("Failed to create the TCP server\n");
         return false;
     }
 
     err_t bind_error = tcp_bind(server_pcb, IP_ANY_TYPE, HTTP_PORT);
     if (bind_error != ERR_OK) {
-        printf("Falha ao abrir a porta %d: %d\n", HTTP_PORT, bind_error);
+        printf("Failed to bind to port %d: %d\n", HTTP_PORT, bind_error);
         tcp_close(server_pcb);
         return false;
     }
 
     server_pcb = tcp_listen(server_pcb);
     if (server_pcb == NULL) {
-        printf("Falha ao iniciar o servidor HTTP\n");
+        printf("Failed to start the HTTP server\n");
         return false;
     }
 
     tcp_accept(server_pcb, http_accept);
-    printf("Servidor HTTP disponível na porta %d\n", HTTP_PORT);
+    printf("HTTP server listening on port %d\n", HTTP_PORT);
     return true;
 }
 
@@ -211,30 +211,30 @@ int main() {
     stdio_init_all();
     sleep_ms(2000);
 
-    // Inicializa a arquitetura do driver CYW43 (Wi-Fi)
+    // Initialize the CYW43 Wi-Fi driver architecture.
     if (cyw43_arch_init()) {
-        printf("Falha ao inicializar o driver CYW43\n");
+        printf("Failed to initialize the CYW43 driver\n");
         return 1;
     }
 
-    // Ativa o modo Station (cliente Wi-Fi)
+    // Enable station (Wi-Fi client) mode.
     cyw43_arch_enable_sta_mode();
 
-    printf("Conectando ao Wi-Fi '%s'...\n", WIFI_SSID);
+    printf("Connecting to Wi-Fi '%s'...\n", WIFI_SSID);
 
-    // Tenta conectar à rede Wi-Fi com timeout de 10 segundos
+    // Try to connect to the Wi-Fi network with a 10-second timeout.
     if (cyw43_arch_wifi_connect_timeout_ms(WIFI_SSID, WIFI_PASSWORD, CYW43_AUTH_WPA2_AES_PSK, 10000)) {
-        printf("Falha ao conectar ou tempo esgotado.\n");
+        printf("Failed to connect or connection timed out.\n");
         cyw43_arch_deinit();
         return 1;
     } else {
-        printf("Conectado com sucesso!\n");
+        printf("Connected successfully!\n");
 
         ip4_addr_t ip = cyw43_state.netif[0].ip_addr;
-        printf("IP obtido: %s\n", ip4addr_ntoa(&ip));
+        printf("IP address: %s\n", ip4addr_ntoa(&ip));
     }
 
-    // Inicia com o LED ligado
+    // Start with the LED on.
     cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, true);
     if (!http_server_open()) {
         cyw43_arch_deinit();

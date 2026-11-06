@@ -1,48 +1,124 @@
-# Wi-Fi com Raspberry Pi Pico 2 W
+# Wi-Fi Connection with Raspberry Pi Pico W and Pico 2 W
 
-Este exemplo inicializa o CYW43 do Raspberry Pi Pico 2 W, conecta-se a uma rede
-Wi-Fi e exibe o endereço IP obtido no monitor serial USB.
+This example connects a **Raspberry Pi Pico W** or **Raspberry Pi Pico 2 W** to
+a Wi-Fi network and prints the IP address assigned by the network to the USB
+serial monitor.
 
-## Requisitos
+## Board overview
 
-- Raspberry Pi Pico 2 W
-- Pico SDK com suporte ao alvo `pico2_w`
-- Rede Wi-Fi de 2,4 GHz
+| Feature | Raspberry Pi Pico W | Raspberry Pi Pico 2 W |
+|---|---|---|
+| Microcontroller | RP2040 | RP2350 |
+| Architecture | Dual-core Arm Cortex-M0+ | Dual-core Arm Cortex-M33 |
+| Wireless chip | CYW43439 (2.4 GHz Wi-Fi and Bluetooth) | CYW43439 (2.4 GHz Wi-Fi and Bluetooth) |
+| CMake board name | `pico_w` | `pico2_w` |
+| Generated UF2 file | `picow_wifi_exemplo.uf2` | `pico2w_wifi_exemplo.uf2` |
 
-## Configuração
+## 1. Prepare the development environment
 
-Edite `src/blink_simple.c` e informe as credenciais:
+### Linux dependencies
+
+On Ubuntu or Debian, install CMake and the ARM compiler toolchain:
+
+```bash
+sudo apt update
+sudo apt install cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential -y
+```
+
+### Pico SDK
+
+Use **Pico SDK 2.0.0 or later** for Pico 2 W support. If the SDK is already
+installed at `~/pico/pico-sdk`, initialize its submodules:
+
+```bash
+cd ~/pico/pico-sdk
+git submodule update --init --recursive
+```
+
+If you do not have the SDK yet, clone it and initialize the submodules:
+
+```bash
+mkdir -p ~/pico
+cd ~/pico
+git clone https://github.com/raspberrypi/pico-sdk.git
+cd pico-sdk
+git submodule update --init --recursive
+```
+
+Set `PICO_SDK_PATH` in each terminal used to build the example:
+
+```bash
+export PICO_SDK_PATH=~/pico/pico-sdk
+```
+
+## 2. Configure Wi-Fi credentials
+
+Open `src/exemple_wifi.c` and set your network credentials:
 
 ```c
-#define WIFI_SSID "nome-da-rede"
-#define WIFI_PASSWORD "senha-da-rede"
+#define WIFI_SSID "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
 ```
 
-O exemplo usa `CYW43_AUTH_WPA2_AES_PSK`. Redes abertas, WPA/WPA3-only,
-portais cativos e redes de 5 GHz não são atendidos por esta configuração.
+Do not commit real Wi-Fi credentials to a public repository. The example uses
+`CYW43_AUTH_WPA2_AES_PSK` and requires a 2.4 GHz Wi-Fi network; 5 GHz networks
+are not supported.
 
-## Compilação
+## 3. Build the firmware
 
-```shell
-cd src
-mkdir -p build
-cd build
-export PICO_SDK_PATH=~/pico/pico-sdk
-cmake ..
-make -j4
+Build each board in a separate directory to keep the CMake configuration for
+the RP2040 and RP2350 targets separate.
+
+From the repository root, enter the example's `src` directory:
+
+```bash
+cd exemples/wifi_html/src
 ```
 
-O arquivo gerado será `pico2w_wifi_exemplo.uf2`. Conecte o Pico 2 W ao
-computador mantendo o botão BOOTSEL pressionado e copie esse arquivo para a
-unidade `RPI-RP2`.
+### Raspberry Pi Pico 2 W
 
-## Monitor serial
+```bash
+cmake -B build_pico2w -DPICO_BOARD=pico2_w
+cmake --build build_pico2w -j4
+```
 
-Abra o monitor serial USB a 115200 baud. Após a inicialização, a saída esperada
-é semelhante a:
+Output: `build_pico2w/pico2w_wifi_exemplo.uf2`
+
+### Raspberry Pi Pico W
+
+```bash
+cmake -B build_picow -DPICO_BOARD=pico_w
+cmake --build build_picow -j4
+```
+
+Output: `build_picow/picow_wifi_exemplo.uf2`
+
+## 4. Flash the board
+
+1. Disconnect the board from USB.
+2. Hold down **BOOTSEL** while connecting it to the computer.
+3. Release **BOOTSEL** when the `RPI-RP2` drive appears.
+4. Copy the UF2 file for your board to that drive.
+
+For Pico 2 W:
+
+```bash
+cp build_pico2w/pico2w_wifi_exemplo.uf2 /media/$USER/RPI-RP2/
+```
+
+For Pico W:
+
+```bash
+cp build_picow/picow_wifi_exemplo.uf2 /media/$USER/RPI-RP2/
+```
+
+## 5. Monitor serial output
+
+Open the board's USB serial port at **115200 baud** using PuTTY, `minicom`,
+`screen`, or the VS Code serial monitor. The output should look similar to:
 
 ```text
-Conectando ao Wi-Fi 'nome-da-rede'...
-Conectado com sucesso!
-IP obtido: 192.168.1.123
+Connecting to Wi-Fi 'YOUR_WIFI_SSID'...
+Connected successfully!
+IP address: 192.168.1.123
 ```
