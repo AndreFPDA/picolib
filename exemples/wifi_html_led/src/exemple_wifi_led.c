@@ -32,7 +32,7 @@ static int build_html_response(char *response, size_t response_size) {
         "<!doctype html>"
         "<html lang=\"en\"><head><meta charset=\"UTF-8\">"
         "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1\">"
-        "<title>Pico 2 W</title>"
+        "<title>Pico W</title>"
         "<style>"
         "body{font-family:sans-serif;text-align:center;padding:40px;background:#f0f2f5;}"
         ".card{background:#fff;padding:30px;border-radius:12px;display:inline-block;box-shadow:0 4px 10px rgba(0,0,0,0.15);}"
