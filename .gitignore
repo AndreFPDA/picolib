@@ -1,3 +1,4 @@
 build/
 build_pico2w/
 wifi_credentials.h
+build_picow/
