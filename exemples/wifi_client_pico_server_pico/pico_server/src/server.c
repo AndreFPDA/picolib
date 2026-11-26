@@ -62,12 +62,16 @@ static void send_led_state(void) {
 
 static void handle_serial_line(void) {
     serial_line[serial_line_length] = '\0';
-    led_command_t command = led_command_parse(serial_line);
-    if (command == LED_COMMAND_INVALID) {
-        printf("Invalid command. Use ON, OFF, or TOGGLE.\n");
+    if (strcmp(serial_line, "??") == 0) {
+        printf("Sou o SERVER\n");
     } else {
-        set_led(command, "USB serial");
-        send_led_state();
+        led_command_t command = led_command_parse(serial_line);
+        if (command == LED_COMMAND_INVALID) {
+            printf("Invalid command. Use ON, OFF, or TOGGLE.\n");
+        } else {
+            set_led(command, "USB serial");
+            send_led_state();
+        }
     }
     serial_line_length = 0;
 }

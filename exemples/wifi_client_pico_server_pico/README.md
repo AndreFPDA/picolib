@@ -68,6 +68,7 @@ instead, use `-DPICO_BOARD=pico2_w` and a distinct directory such as
 3. Connect a PC to either Pico's USB port and open its serial monitor at
    **115200 baud**. Enter `ON`, `OFF`, or `TOGGLE`, followed by Enter.
    `LED ON`, `LED OFF`, and `LED TOGGLE` are also accepted.
+   Enter `??` to identify the connected board as `CLIENT` or `SERVER`.
 4. The command changes the LED on the USB-connected Pico and is forwarded to
    the other Pico. Each board can therefore be connected to the PC to control
    both LEDs.
