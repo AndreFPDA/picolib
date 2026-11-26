@@ -69,7 +69,7 @@ static void send_led_state(void) {
 static void handle_serial_line(void) {
     serial_line[serial_line_length] = '\0';
     if (strcmp(serial_line, "??") == 0) {
-        printf("Sou o CLIENT\n");
+        printf("I'm CLIENT\n");
     } else {
         led_command_t command = led_command_parse(serial_line);
         if (command == LED_COMMAND_INVALID) {
